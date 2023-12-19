@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <title>Christmas Project</title>
+</head>
+<body>
+    <div class="game-container">
+        <img src="assets/Crosshair.png" class="crosshair">
+        <div class="info">
+            <div class="health">
+                <div class="health-bar">
+                    <div class="health-bar-inner"></div>
+                </div>
+                <div class="health-amount"></div>
+            </div>
+        </div>
+    </div>
+    <!-- <canvas class="webgl"></canvas> -->
+    <script type="importmap">
+        {
+              "imports": {
+                  "three": "https://cdn.skypack.dev/three@0.149.0/build/three.module",
+            "three/": "https://cdn.skypack.dev/three@0.149.0/",      
+            "dat.gui": "https://cdn.skypack.dev/dat.gui"
+              }
+          }
+      </script>
+    <script type="module" src="scripts/main.js"></script>
+</body>
+</html>
