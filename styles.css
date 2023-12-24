@@ -74,13 +74,13 @@ html, body{
     position:absolute;
     display:flex;
     overflow:hidden;
-    top:90vh;
     left:1vw;
+    top:90vh;
     width:30vw;
-    height:1vh;
+    height:1.5vh;
     z-index: 100;
-    border-radius: 0.15vw;
-    border: 0.15vw solid #000000;
+    border-radius: 0.7vh;
+    border: 0.1vw solid #ffffff;
 }
 
 .health-bar .health-bar-inner{
@@ -90,4 +90,49 @@ html, body{
     background-color: #ff0000;
     z-index: 100;
     transition: width 0.5s;
+}
+
+.health-amount{
+    position:absolute;
+    left:32vw;
+    top:88.5vh;
+    z-index: 100;
+    color: #ffffff;
+    font-size: 1.2vw;
+    font-family: monospace;
+    padding: 0.5vw;
+
+}
+
+.coordinates{
+    position:absolute;
+    top:0;
+    left:0;
+    z-index: 100;
+    color: #ffffff;
+    font-size: 1.5vw;
+    font-family: monospace;
+    padding: 0.5vw;
+}
+
+.point{
+    position:absolute;
+    top:4%;
+    left:0;
+    z-index: 100;
+    color: #ff0000;
+    font-size: 2.5vw;
+    font-family: monospace;
+    padding: 0.5vw;
+}
+
+.building{
+    position:absolute;
+    top:10%;
+    left:0;
+    z-index: 100;
+    color: #ffffff;
+    font-size: 2.5vw;
+    font-family: monospace;
+    padding: 0.5vw;
 }

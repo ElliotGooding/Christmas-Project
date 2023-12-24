@@ -15,20 +15,26 @@
                 <div class="health-bar">
                     <div class="health-bar-inner"></div>
                 </div>
-                <div class="health-amount"></div>
+                <div class="health-amount">100/100</div>
             </div>
         </div>
+        <div class="coordinates">0, 0, 0</div>
+        <div class="hitbox-helper point"></div> 
+        <div class="hitbox-helper building"></div> 
     </div>
     <!-- <canvas class="webgl"></canvas> -->
     <script type="importmap">
         {
               "imports": {
-                  "three": "https://cdn.skypack.dev/three@0.149.0/build/three.module",
-            "three/": "https://cdn.skypack.dev/three@0.149.0/",      
+                  "three": "./vendor/build/three.module.js",
+            "three/addons/": "./vendor/examples/jsm/",      
             "dat.gui": "https://cdn.skypack.dev/dat.gui"
               }
           }
-      </script>
+    </script>
+    <!-- <script src='threex.volumetricspotlight.js'></script> -->
+    <script type="module" src="threex.volumetricspotlight-master\threex.volumetricspotlight-master\threex.volumetricspotlightmaterial.js"></script>
+    <script type="module" src="threex.volumetricspotlight-master\threex.volumetricspotlight-master\threex.volumetricspotlightmaterialdatgui.js"></script>
     <script type="module" src="scripts/main.js"></script>
 </body>
 </html>

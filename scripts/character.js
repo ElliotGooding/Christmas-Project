@@ -16,7 +16,7 @@ function tan(deg){
 }
 
 export class Character{
-    constructor(startCoords, scene, cam){
+    constructor(startCoords, scene, cam, pressedKeys){
         this.scene = scene;
         this.cam = cam;
 
@@ -29,12 +29,16 @@ export class Character{
         this.defaultHeight = this.Height;
 
         this.speed = 10;
+        // this.speed = 60;
+        this.defaultSpeed = this.speed
         this.ySpeed = 0;
         this.yAccel = -0.19;
         this.jumpSpeed = 10;
-        this.admin = false;
         this.verticalFlySpeed = 10;
+        // this.verticalFlySpeed = 60;
+        this.admin = false;
 
+        this.enableOverlay = !this.admin;
         this.overlayOffset = [0.2,-1.9,0];
         this.aimOverlayOffset = [-0.5,-1.5,-0.1]
         this.normalOverlayTiltDamper = 1.2;
@@ -51,7 +55,7 @@ export class Character{
         this.tSinceLastDamage = 0;
         this.damageOverlay = true;
 
-        this.pressedKeys = {};
+        this.pressedKeys = pressedKeys;
         window.onkeyup = (e) => { this.pressedKeys[e.keyCode] = false; };
         window.onkeydown = (e) => { this.pressedKeys[e.keyCode] = true; };
     
@@ -59,6 +63,7 @@ export class Character{
             if (e.button == 0 && this.coolDown <= 0){this.shooting = true}
             else if (e.button == 2){
                 this.aiming = true
+                this.speed = this.defaultSpeed/2
                 this.damage = 10;
                 this.cam.deltaFOV = -2;
             }
@@ -67,6 +72,7 @@ export class Character{
         document.addEventListener("mouseup", (e)=>{
             if (e.button == 2){
                 this.aiming = false
+                this.speed = this.defaultSpeed
                 this.damage = 3
                 this.cam.deltaFOV = 2;
             }
@@ -87,28 +93,29 @@ export class Character{
     }
 
     handleInput(cam, structureObjects){
+        let sumDirectVec = new THREE.Vector3(0,0,0);
         if (this.pressedKeys[87]){
-            this.moveInDirection("XZ", cam.yaw+180, this.speed, structureObjects);
+            sumDirectVec.add(this.createDirectVec("XZ", cam.yaw+180, this.speed))
         };
         if (this.pressedKeys[65]){
-            this.moveInDirection("XZ", cam.yaw+270, this.speed, structureObjects);
+            sumDirectVec.add(this.createDirectVec("XZ", cam.yaw+270, this.speed));
         };
         if (this.pressedKeys[83]){
-            this.moveInDirection("XZ", cam.yaw, this.speed, structureObjects);
+            sumDirectVec.add(this.createDirectVec("XZ", cam.yaw, this.speed));
         };
         if (this.pressedKeys[68]){
-            this.moveInDirection("XZ", cam.yaw+90, this.speed, structureObjects);
+            sumDirectVec.add(this.createDirectVec("XZ", cam.yaw+90, this.speed,));
         };
         if (this.admin === true){
             if (this.pressedKeys[32]){
-                this.moveInDirection("Y", this.verticalFlySpeed, this.speed, structureObjects);
+                sumDirectVec.add(this.createDirectVec("Y", this.verticalFlySpeed, this.speed));
             };
             if (this.pressedKeys[16]){
-                this.moveInDirection("Y", -this.verticalFlySpeed, this.speed, structureObjects);
+                sumDirectVec.add(this.createDirectVec("Y", -this.verticalFlySpeed, this.speed));
             };
         } else {
             if (this.pressedKeys[32] && this.collision([this.x, this.y-1, this.z], structureObjects) === true){
-                this.ySpeed = this.jumpSpeed;
+                this.ySpeed = this.jumpSpeed; 
             }
             if (this.pressedKeys[16]){
                 this.Height = this.defaultHeight/2
@@ -117,25 +124,43 @@ export class Character{
             }
             // console.log(this.height)
         }; 
+        this.moveCharacterBy(sumDirectVec, structureObjects);
     };
 
-    moveInDirection(plane, direction, speed, structureObjects){
+    createDirectVec(plane, direction, speed){
+        let deltaPos;
         if (plane == "XZ"){
             let deltaZ = speed*cos(direction);
             let deltaX = speed*sin(direction);
-            const newX = this.x + deltaX;
-            const newZ = this.z + deltaZ;
-            if (this.collision([newX, this.y, newZ], structureObjects) === false){
-                this.x = newX;
-                this.z = newZ;
-            }
+            deltaPos = new THREE.Vector3(deltaX, 0, deltaZ);
         } else if (plane == "Y"){
-            const newY = this.y + direction;
-            if (this.collision([this.x, newY, this.z], structureObjects) === false){
-                this.y = newY;
-            }
+            deltaPos = new THREE.Vector3(0, direction, 0);
         }
+        document.querySelector(".coordinates").innerHTML = `${Math.round(this.x)}, ${Math.round(this.y)}, ${Math.round(this.z)}`
         // console.log(`X: ${this.x}\nY: ${this.y}\nZ: ${this.z}`)
+        return deltaPos;
+    }
+
+    moveCharacterBy(deltaPos, structureObjects){
+        const y = deltaPos.y;
+        deltaPos.y = 0;
+        deltaPos.x = (Math.abs(deltaPos.x) < 0.001) ? 0 : deltaPos.x;
+        deltaPos.z = (Math.abs(deltaPos.z) < 0.001) ? 0 : deltaPos.z;
+        deltaPos.normalize();
+        deltaPos.multiplyScalar(this.speed);
+        deltaPos.y = y;
+        const newX = this.x + deltaPos.x;
+        const newY = this.y + deltaPos.y;
+        const newZ = this.z + deltaPos.z;
+        if (this.collision([newX, this.y, this.z], structureObjects) === false){
+            this.x = newX;
+        }
+        if (this.collision([this.x, newY, this.z], structureObjects) === false){
+            this.y = newY;
+        }
+        if (this.collision([this.x, this.y, newZ], structureObjects) === false){
+            this.z = newZ;
+        }
     }
 
     collision([x,y,z], structureObjects){
@@ -177,6 +202,7 @@ export class Character{
     }
 
     updateOverlay(){
+        if (this.enableOverlay == false){return}
         if (!this.aiming){this.renderNormalOverlay()}
         else {this.renderAimingOverlay()}
 
@@ -264,5 +290,6 @@ export class Character{
             document.querySelector('.game-container').style.setProperty('--red-alpha', ''+alpha);
         }
         document.querySelector(".health-bar-inner").style.width = `${this.health}%`
+        document.querySelector(".health-amount").innerHTML = `${this.health}/100`
     }
 }

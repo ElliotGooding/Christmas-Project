@@ -1,14 +1,15 @@
 import * as THREE from 'three';
-import { MTLLoader } from 'three/examples/jsm/loaders/MTLLoader';
-import { OBJLoader } from 'three/examples/jsm/loaders/OBJLoader';
+import { MTLLoader } from 'three/addons/loaders/MTLLoader.js';
+import { OBJLoader } from 'three/addons/loaders/OBJLoader.js';
 
 var mtlLoader = new MTLLoader();
 
 export class OBJModel{
-    constructor(objPath, mtlPath, scene){
+    constructor(objPath, mtlPath, scene, glowing=false){
         this.objPath = objPath;
         this.mtlPath = mtlPath;
         this.scene = scene;
+        this.glowing = glowing;
         this.model = null;
         this.originalMaterials = [];
         this.loadModel();
@@ -42,6 +43,9 @@ export class OBJModel{
                         this.originalMaterials.push(child.material);
                     }
                     child.castShadow = true;
+                    if (this.glowing){
+                        child.layers.enable(1);
+                    }
                 }
             });
         }, function (xhr) {
@@ -64,5 +68,3 @@ export class OBJModel{
         }
     }
 }
-
-

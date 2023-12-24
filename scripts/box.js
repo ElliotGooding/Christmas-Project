@@ -1,5 +1,43 @@
+import * as THREE from 'three';
+
+
+const textureLoader = new THREE.TextureLoader(); 
+
+export class CreateBox{
+    constructor(scene, structureObjects, [x,y,z], [w,h,d], visible, texture, textured = false, repeat = [1,1], solid = true, id = 0){
+        this.scene = scene
+        this.structureObjects = structureObjects
+        var cube;
+        if (visible){
+            const geometry = new THREE.BoxGeometry( w, h, d );
+            var material;
+            if (textured){
+                const loadedTex = textureLoader.load(texture);
+                material = new THREE.MeshStandardMaterial( { map: loadedTex } );
+                loadedTex.wrapS = THREE.MirroredRepeatWrapping;
+                loadedTex.wrapT = THREE.MirroredRepeatWrapping;
+                loadedTex.repeat.set(repeat[0],repeat[1]);
+            } else{
+                material = new THREE.MeshBasicMaterial( { color: texture } );
+            }
+            cube = new THREE.Mesh( geometry, material );
+            cube.position.set(x,y,z);
+            cube.castShadow = true;
+            cube.receiveShadow = true;
+            cube.material.side = THREE.DoubleSide;
+            cube.name = id;
+            this.scene.add( cube );
+        }
+        if (solid){
+            const box = new Box(x,y,z,w,h,d, id);
+            this.structureObjects.push(box)
+        }
+        return cube;
+    }
+}
+
 export class Box {
-    constructor(x, y, z, width, height, depth) {
+    constructor(x, y, z, width, height, depth, id=0) {
         this.x = x;
         this.y = y;
         this.z = z;
@@ -16,5 +54,6 @@ export class Box {
         this.back = this.z - this.depth/2;
 
         this.solid = true
+        this.id = id;
     }
 }

@@ -14,14 +14,14 @@ function tan(deg){
 
 export class Camera{
     constructor(){
-        this.camObj = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 10000 );
+        this.camObj = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 50000 );
         this.yaw = 0;
         this.tilt = 15;
         this.roll = 0;
         this.mouseSpeed = -0.5;
         this.fov = 60;
         this.nearPlane = 0.1;
-        this.farPlane = 10000;
+        this.farPlane = 80000;
 
         this.deltaFOV = 0;
 

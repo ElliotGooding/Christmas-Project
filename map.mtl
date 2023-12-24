@@ -2,14 +2,14 @@
 # www.blender.org
 
 newmtl Material
-Ns 0.000000
+Ns 250.000000
 Ka 1.000000 1.000000 1.000000
-Kd 0.052219 0.052219 0.052219
 Ks 0.500000 0.500000 0.500000
 Ke 0.000000 0.000000 0.000000
 Ni 1.450000
 d 1.000000
 illum 2
+map_Kd textures/road.jpg
 
 newmtl Material.001
 Ns 250.000000
@@ -24,12 +24,12 @@ map_Kd textures/download (3).jpg
 newmtl Material.002
 Ns 250.000000
 Ka 1.000000 1.000000 1.000000
-Kd 0.800000 0.800000 0.800000
-Ks 0.500000 0.500000 0.500000
+Ks 0.100000 0.100000 0.100000
 Ke 0.000000 0.000000 0.000000
 Ni 1.000000
-d 1.000000
+d 0.000000
 illum 2
+map_Kd textures/moon.png
 
 newmtl Material.003
 Ns 250.000000
@@ -70,6 +70,10 @@ Ni 1.450000
 d 1.000000
 illum 2
 map_Kd textures/aerial_grass_rock_diff_1k.jpg
+map_Ks textures/aerial_grass_rock_rough_1k.jpg
+map_bump textures/aerial_grass_rock_nor_1k.jpg
+map_Ka textures/aerial_grass_rock_ao_1k.jpg
+map_Ns textures/aerial_grass_rock_rough_ao_1k.jpg
 
 newmtl Material.007
 Ns 250.000000
@@ -79,7 +83,7 @@ Ke 0.000000 0.000000 0.000000
 Ni 1.450000
 d 1.000000
 illum 2
-map_Kd textures/TexturesCom_ConcreteSidewalk_2x2_1K_albedo.tif
+map_Kd textures/TexturesCom_ConcreteSidewalk_2x2_1K_albedo.png
 
 newmtl Material.008
 Ns 250.000000
@@ -1206,9 +1210,9 @@ Ns 562.500000
 Ka 1.000000 1.000000 1.000000
 Kd 0.046964 0.121930 0.318547
 Ks 0.500000 0.500000 0.500000
-Ke 0.000000 0.000000 0.000000
+Ke 0.046964 0.121930 0.318547
 Ni 1.450000
-d 1.000000
+d 0.000000
 illum 3
 
 newmtl Ocean.002
@@ -1218,7 +1222,7 @@ Kd 0.046964 0.121930 0.318547
 Ks 0.500000 0.500000 0.500000
 Ke 0.000000 0.000000 0.000000
 Ni 1.450000
-d 1.000000
+d 0.000000
 illum 3
 
 newmtl Ocean.003
@@ -1228,7 +1232,7 @@ Kd 0.046964 0.121930 0.318547
 Ks 0.500000 0.500000 0.500000
 Ke 0.000000 0.000000 0.000000
 Ni 1.450000
-d 1.000000
+d 0.000000
 illum 3
 
 newmtl Ocean.004
@@ -1238,7 +1242,7 @@ Kd 0.046964 0.121930 0.318547
 Ks 0.500000 0.500000 0.500000
 Ke 0.000000 0.000000 0.000000
 Ni 1.450000
-d 1.000000
+d 0.000000
 illum 3
 
 newmtl Ocean.005
@@ -1248,7 +1252,7 @@ Kd 0.046964 0.121930 0.318547
 Ks 0.500000 0.500000 0.500000
 Ke 0.000000 0.000000 0.000000
 Ni 1.450000
-d 1.000000
+d 0.000000
 illum 3
 
 newmtl Ocean.006
@@ -1258,7 +1262,7 @@ Kd 0.046964 0.121930 0.318547
 Ks 0.500000 0.500000 0.500000
 Ke 0.000000 0.000000 0.000000
 Ni 1.450000
-d 1.000000
+d 0.000000
 illum 3
 
 newmtl Ocean.008
