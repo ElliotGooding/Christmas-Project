@@ -7,7 +7,7 @@ export class Sound{
     constructor(soundPath){
         this.soundPath = soundPath;
         this.sound = null;
-        this.playSound();
+        // this.playSound();
     }
 
     playSound(){

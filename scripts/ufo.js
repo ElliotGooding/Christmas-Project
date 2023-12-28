@@ -46,7 +46,7 @@ export class Ufo{
         // this.modelObj = new Model('assets/ufo.glb', this.position, [this.size, this.size, this.size], this.scene, this.renderer, this.camera);
         this.modelObj = new OBJModel('ufo.obj', 'ufo.mtl', this.scene, true)
         this.createRay();
-        while (this.modelObj.model == null || this.modelObj.model == undefined || this.ray == undefined){
+        while (this.modelObj.model == null || this.modelObj.model == undefined){
             await new Promise(resolve => setTimeout(resolve, 100));
         }
         this.model = this.modelObj.model;
@@ -185,7 +185,7 @@ export class Ufo{
             const direction = vector.map(x => x/magnitude)
             const laser = new Laser(this.position, direction, this.scene, this.character, this.damage);
             this.lasers.push(laser);
-            new Sound("assets/laser.mp3")
+            // new Sound("assets/laser.mp3")
         }
     }
 

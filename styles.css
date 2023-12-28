@@ -3,6 +3,291 @@ html, body{
     padding: 0;
     width:100%;
     height:100%;
+    font-family: monospace;
+}
+
+body{
+    background-color: #fff;
+    overflow: hidden;
+}
+
+.webgl{
+    width:100%;
+    height:100%;
+    z-index:0;
+}
+
+.menu-screen{
+    width: 100%;
+    height: 100%;
+    position:absolute;
+    z-index: 100;
+}
+
+.title{
+    position:absolute;
+    top:20%;
+    left:50%;
+    transform: translate(-50%, -50%);
+    color: #ffffff;
+    font-family: monospace;
+    text-align: center;
+    padding: 0.5vw;
+    transition: top 1s, font-size 1s, transform 1s;
+}
+
+.title.hide{
+    opacity: 0;
+    transition: opacity 1s;
+}
+
+.small-title{
+    font-size: 3vw;
+    color: rgb(1, 108, 74)
+}
+
+.large-title{
+    font-size: 9vw;
+    color: rgb(1, 108, 74)
+}
+
+.title.moveToTop{
+    top: 15%;
+}
+
+.moveToTop > .small-title{
+    font-size: 2vw;
+    transition: top 1s, font-size 1s, transform 1s;
+}
+
+.moveToTop > .large-title{
+    font-size: 6vw;
+    transition: top 1s, font-size 1s, transform 1s;
+}
+
+.main-page .play-button{
+    position:absolute;
+    top:65%;
+    left:50%;
+    transform: translate(-50%, -50%);
+    width: 20vw;
+    height: 8vw;
+    color: #a1a1a1;
+    font-size: 6vw;
+    font-family: monospace;
+    padding: 0.5vw;
+    border: 0.1vw solid #ffffff;
+    border-radius: 0.5vw;
+    background-color: transparent;
+    opacity: 1;
+    transition: opacity 0.1s
+}
+
+.play-button-background{
+    position:absolute;
+    left:0;
+    top:0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(at center, rgba(158, 112, 196, 0.9), rgb(135, 102, 255, 0.7));
+    border-radius: 0.5vw;
+    opacity: 0;
+    transition: opacity 0.5s;
+}
+
+.play-button-text{
+    position:relative;
+    z-index: 100;
+    pointer-events: none;
+}
+
+.play-button-background:hover{
+    opacity: 1;
+    cursor: pointer;
+}
+
+.play-button:hover{
+    color: #ffffff;
+    transition: color 0.5s;
+}
+
+.main-page .play-button:active{
+    top: 65.3%;
+}
+
+.menu{
+    display:none;
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+
+.menu-background{
+    --openTime: 1s;
+    opacity: 0;
+    position:absolute;
+    top:65%;
+    left:50%;
+    transform: translate(-50%, -50%);
+    width: 20vw;
+    height: 8vw;
+    border: 0.1vw solid #ffffff;
+    border-radius: 0.5vw;
+    background: radial-gradient(at center, rgba(186, 102, 255, 0.9), rgb(135, 102, 255, 0.7));
+    transition: width var(--openTime), height var(--openTime), top var(--openTime), left var(--openTime), transform var(--openTime), border var(--openTime);
+}
+
+.menu-content{
+    position:absolute;
+    width:37.5%;
+    height:50%;
+    top:60%;
+    left:50%;
+    transform: translate(-50%, -50%);
+    display: none;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 1s, visibility 0.5s;
+}
+
+.menu-background.active{
+    opacity: 1;
+    visibility: visible;
+    width:33%;
+    height:50%;
+    top:60%;
+    left:50%;
+    border: none;
+    transform: translate(-50%, -50%);
+}
+
+.menu-button{
+    position:absolute;
+    display: grid;
+    grid-template-columns: 4vw auto;
+    justify-items: start; /* Add this line */
+    left:50%;
+    transform: translate(-50%, -50%);
+    width: 30vw;
+    height: 5.5vw;
+    color: #a1a1a1;
+    font-size: 4vw;
+    font-family: monospace;
+    /* padding: 0.5vw; */
+    border: 1px solid #a1a1a1;
+    border-radius: 0.5vw;
+    background-color: transparent;
+    opacity: 1;
+    transition: opacity 0.1s, colour 0.5s;
+}
+
+.menu-button-text{
+    position: relative;
+    padding-left: 3vw;
+    padding-top: 0.4vw;
+}
+
+.menu-button:hover{
+    color: #ffffff;
+    border-color: #ffffff   
+}
+
+.menu-button-icon{
+    padding-right: 1vw;
+    padding-top: 0.7vw;
+    border-right: solid 1px;
+    border-color: inherit;
+    height: 89%;
+    width: 120%
+}
+
+.start-button{
+    top: 20%;
+}
+
+.settings-button{
+    top: 50%;
+}
+
+.credits-button{
+    top: 80%;
+}
+
+.menu.deactive{
+    transform: scale(0);
+    opacity: 0;
+    transition: transform 2s, opacity 0.4s;
+}
+
+.mission-screen{
+    visibility: hidden;
+    opacity: 0;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: #092945;
+    transition: opacity 1s, visibility 0.5s;
+}
+
+.mission-screen.active{
+    display: block;
+    visibility: visible;
+    opacity: 1;
+    z-index: 1000;
+}
+
+.mission-content-container{
+    position: absolute;
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 40%;
+    height: 15vw;
+    background-color: #38688f;
+    border-radius: 0.1vw;
+    padding: 1vw;
+    box-shadow: 0 0 40px 1vw #38688f;
+}
+
+.mission-content{
+    width: 100%;
+    height: 100%;
+    color: #ffffff;
+}
+
+.mission-title{
+    font-size: 2vw;
+    padding: 0;
+    margin: 1%;
+}
+
+.mission-content-text{
+    font-size: 1.3vw;
+    padding: 0.5vw;
+}
+
+.divider{
+    border-bottom: 1px solid #ffffff;
+    margin: 1%;
+}
+
+.continue-button{
+    position: absolute;
+    top: 68%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: #a1a1a1;
+    font-size: 2vw;
+    font-family: monospace;
+    border: none;
+    background-color: transparent;
+}
+
+.continue-button:hover{
+    color: #ffffff;
+    cursor: pointer;
+    text-decoration: underline;
 }
 
 .game-container{
@@ -14,7 +299,6 @@ html, body{
 }
 
 .game-container::before {
-
     content: '';
     position: fixed;
     top: 0;
@@ -53,6 +337,11 @@ html, body{
     left:0;
     width:100%;
     height:100%;
+}
+
+#mainGameCanvas{
+    display: none;
+    visibility: hidden;
 }
 
 .crosshair{

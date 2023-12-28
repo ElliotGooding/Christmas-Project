@@ -6,7 +6,7 @@ import { UnrealBloomPass } from './jsm/postprocessing/UnrealBloomPass.js';
 import { OutputPass } from './jsm/postprocessing/OutputPass.js';
 
 export class GlowRenderer{
-    constructor(renderer, scene, camera){
+    constructor(renderer, scene, camera, threshold, strength, radius, exposure){
         this.renderer = renderer;
         this.scene = scene;
         this.camera = camera;
@@ -14,11 +14,6 @@ export class GlowRenderer{
         const BLOOM_SCENE = 1;
         this.bloomLayer = new THREE.Layers();
         this.bloomLayer.set( BLOOM_SCENE );
-        
-        const threshold = 0;
-        const strength = 0.5;
-        const radius = 0.0;
-        const exposure = 1.1;
         
         this.renderer.toneMappingExposure = Math.pow( exposure, 4.0 );
         

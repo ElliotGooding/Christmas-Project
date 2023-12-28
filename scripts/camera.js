@@ -14,7 +14,7 @@ function tan(deg){
 
 export class Camera{
     constructor(){
-        this.camObj = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 50000 );
+        this.camObj = new THREE.PerspectiveCamera( 60, window.innerWidth / window.innerHeight, 0.1, 50000 );
         this.yaw = 0;
         this.tilt = 15;
         this.roll = 0;
@@ -26,6 +26,11 @@ export class Camera{
         this.deltaFOV = 0;
 
         this.handleMouseMove();
+
+        //Hides pointer on click
+        document.addEventListener("click", function(){
+            document.body.requestPointerLock();
+        })
     }
 
     handleMouseMove(){
@@ -39,7 +44,6 @@ export class Camera{
     }
 
     updateCam(character){
-        this.camObj.position.z = 5
         this.camObj.position.set(character.x, character.y, character.z);
         this.checkTilt();
         this.camObj.lookAt(character.x+100*sin(this.yaw-180),character.y+100*tan(this.tilt-180),character.z+100*cos(this.yaw-180));

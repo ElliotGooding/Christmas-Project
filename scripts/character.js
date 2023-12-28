@@ -203,6 +203,10 @@ export class Character{
 
     updateOverlay(){
         if (this.enableOverlay == false){return}
+        if (this.hideOverlay == true){
+            this.model.model.position.set(0, 1000000, 0);
+            return;
+        }
         if (!this.aiming){this.renderNormalOverlay()}
         else {this.renderAimingOverlay()}
 
