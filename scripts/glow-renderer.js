@@ -7,21 +7,27 @@ import { OutputPass } from './jsm/postprocessing/OutputPass.js';
 
 export class GlowRenderer{
     constructor(renderer, scene, camera, threshold, strength, radius, exposure){
+        //Initalise properties
         this.renderer = renderer;
         this.scene = scene;
         this.camera = camera;
 
-        const BLOOM_SCENE = 1;
+        //Define bloom layer
+        const BLOOM_SCENE = 1; 
         this.bloomLayer = new THREE.Layers();
         this.bloomLayer.set( BLOOM_SCENE );
         
+        //sex exposure
         this.renderer.toneMappingExposure = Math.pow( exposure, 4.0 );
         
+        //Create render pass with scene and camera
         const renderScene = new RenderPass( this.scene, this.camera );
         
+        //Create dark material for non-bloomed objects
         this.darkMaterial = new THREE.MeshBasicMaterial( { color: 'black' } );
         this.materials = {};
         
+        //Define shaders
         const VERTEXSHADER = `
         varying vec2 vUv;
         
@@ -45,16 +51,19 @@ export class GlowRenderer{
         
         }`
 
+        //Create bloom pass
         const bloomPass = new UnrealBloomPass( new THREE.Vector2( window.innerWidth, window.innerHeight ), 1.5, 0.4, 0.85 );
         bloomPass.threshold = threshold;
         bloomPass.strength = strength;
         bloomPass.radius = radius;
         
+        //Create bloom composer
         this.bloomComposer = new EffectComposer( this.renderer );
         this.bloomComposer.renderToScreen = false;
         this.bloomComposer.addPass( renderScene );
         this.bloomComposer.addPass( bloomPass );
         
+        //Create mix pass with shaders
         const mixPass = new ShaderPass(
             new THREE.ShaderMaterial( {
                 uniforms: {
@@ -68,12 +77,16 @@ export class GlowRenderer{
         );
         mixPass.needsSwap = true;
         
+        //Create output pass
         const outputPass = new OutputPass();
         
+        //Create final composer
         this.finalComposer = new EffectComposer( this.renderer );
         this.finalComposer.addPass( renderScene );
         this.finalComposer.addPass( mixPass );
         this.finalComposer.addPass( outputPass );
+
+        //Bind methods
         this.darkenNonBloomed = this.darkenNonBloomed.bind(this);
         this.restoreMaterial = this.restoreMaterial.bind(this);
     }
@@ -81,6 +94,7 @@ export class GlowRenderer{
         
         
     render() {
+        // Darken non-bloomed objects, render bloom, restore materials, render final image
         this.scene.traverse( this.darkenNonBloomed );
         this.bloomComposer.render();
         this.scene.traverse( this.restoreMaterial );
@@ -90,6 +104,7 @@ export class GlowRenderer{
         
         
     darkenNonBloomed( obj ) {
+        //If object is a mesh and not in bloom layer, darken it
         if ( obj.isMesh && this.bloomLayer.test( obj.layers ) === false ) {
             this.materials[ obj.uuid ] = obj.material;
             obj.material = this.darkMaterial;
@@ -98,6 +113,7 @@ export class GlowRenderer{
     }
 
     restoreMaterial( obj ) {
+        //Restore darkened materials
         if ( this.materials[ obj.uuid ] ) {
             obj.material = this.materials[ obj.uuid ];
             delete this.materials[ obj.uuid ];

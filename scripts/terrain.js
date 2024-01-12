@@ -47,6 +47,7 @@ export class Terrain {
         const texture = this.loadTexture('textures/moon.png')
         const material = new THREE.MeshStandardMaterial({ map: texture });
         material.side = THREE.DoubleSide;
+        material.transparent = false;
         // const material = new THREE.MeshBasicMaterial({ color: 0x00ff00, side: THREE.DoubleSide });
         const plane = new THREE.Mesh(geometry, material);
         plane.rotateX(Math.PI / 2);
@@ -58,8 +59,6 @@ export class Terrain {
     loadTexture(texturePath) {
         const loader = new THREE.TextureLoader();
         const texture = loader.load(texturePath);
-        // texture.wrapS = THREE.MirroredRepeatWrapping;
-        // texture.wrapT = THREE.MirroredRepeatWrapping;
         texture.wrapS = THREE.RepeatWrapping;
         texture.wrapT = THREE.RepeatWrapping;
         texture.repeat.set(this.width / 100, this.depth / 100);

@@ -6,7 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="styles.css">
     <title>Christmas Project</title>
+    <link rel="icon" href="assets/icons/favicon.ico">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.21/lodash.min.js"></script>
     <script src="https://kit.fontawesome.com/8f403a495d.js" crossorigin="anonymous"></script>
 </head>
 <body>
@@ -27,16 +29,23 @@
                 <div class="menu-background"></div>
                 <div class="menu-content">
                     <button class="menu-button start-button">
-                        <i class="fa-solid fa-play menu-button-icon"></i>
-                        <div class="menu-button-text">Start</div>
+                        <div class="fill"></div>
+                        <div class="menu-button-content">
+                            <i class="fa-solid fa-play menu-button-icon"></i>
+                            <div class="menu-button-text">Start</div>
+                        </div>
                     </button>
                     <button class="menu-button settings-button">
-                        <i class="fa-solid fa-gear menu-button-icon"></i>
-                        <div class="menu-button-text">Settings</div>
+                        <div class="menu-button-content">
+                            <i class="fa-solid fa-gear menu-button-icon"></i>
+                            <div class="menu-button-text">Settings</div>
+                        </div>
                     </button>
                     <button class="menu-button credits-button">
-                        <i class="fa-solid fa-users menu-button-icon"></i>
-                        <div class="menu-button-text">Credits</div>
+                        <div class="menu-button-content">
+                            <i class="fa-solid fa-users menu-button-icon"></i>
+                            <div class="menu-button-text">Credits</div>
+                        </div>
                     </button>
                 </div>
             </div>
@@ -55,6 +64,7 @@
         <div class="main-game">
             <canvas class="webgl" id="mainGameCanvas"></canvas>
             <div class="canvas-overlay">
+                <div class="damage-overlay"></div>
                 <img src="assets/Crosshair.png" class="crosshair">
                 <div class="info">
                     <div class="health">
@@ -63,6 +73,10 @@
                         </div>
                         <div class="health-amount">100/100</div>
                     </div>
+                </div>
+                <div class="game-over-content">
+                    <div class="game-over">GAME OVER</div>
+                    <div class="kills"></div>
                 </div>
                 <div class="coordinates">0, 0, 0</div>
                 <div class="hitbox-helper point"></div> 

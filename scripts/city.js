@@ -7,9 +7,9 @@ export class City{
         this.scene = scene;
         this.structureObjects = structureObjects;
         this.model = new OBJModel('map.obj', 'map.mtl', this.scene);
-        this.buildingHitBoxes = data;
+        this.buildingHitBoxes = data; //Load hitbox data from external file
         this.buildingHitBoxes.forEach(building => {
-            new Building(this.scene, this.structureObjects, building);
+            new Building(this.scene, this.structureObjects, building); //Create hitboxes for each building
         });
     }
 }
@@ -23,6 +23,7 @@ export class Building{
     }
 
     createHitBoxes(){
+        //Create a hitbox for each box in the geometry
         for (const box of this.geometry){
             const hitBox = new HitBox(box.point1, box.point2, this.scene, this.structureObjects);
             this.structureObjects.push(hitBox);   
@@ -30,8 +31,10 @@ export class Building{
     }
 }
 
+//Custom class for creating hitboxes
 class HitBox{
     constructor(point1, point2, scene, structureObjects){
+        //Calculate the center/dimensions
         const x = (point1[0] + point2[0])/2;
         const y = (point1[1] + point2[1])/2;
         const z = (point1[2] + point2[2])/2;

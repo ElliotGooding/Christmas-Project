@@ -4,7 +4,8 @@ import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js'
 
 const loader = new GLTFLoader();
 
-export class Model {
+//Not used
+export class GLTFModel {
     constructor(modelPath, position, scale, scene) {
         this.model = null;
         this.originalMaterials = [];
@@ -55,8 +56,10 @@ export class Model {
     }
 }
 
-export class AnimatedModel{
+
+export class AnimatedGLTFModel{
     constructor(modelPath, position, scale, scene, defaultAnimation = 0) {
+        //Initalise as null
         this.mixer = null;
         this.model = null;
         this.defaultAnimation = defaultAnimation;
@@ -65,22 +68,25 @@ export class AnimatedModel{
     }
 
     loadModel(modelPath, position, scale, scene, animation = 0) {
+        //Load model using GLTFLoader
         loader.load(modelPath, (gltf) => {
-            this.animations = gltf.animations;
+            this.animations = gltf.animations;  // Set animations from gltf.animations array
     
             if (this.animations && this.animations.length) {
-                this.mixer = new THREE.AnimationMixer(gltf.scene);
+                this.mixer = new THREE.AnimationMixer(gltf.scene); // Create mixer
     
                 // Listen for the 'finished' event
                 this.mixer.addEventListener('finished', (event) => {
                     this.setAnimation(this.defaultAnimation, true);
                 });
     
+                //Play default animation
                 const clip = this.animations[animation];
                 const action = this.mixer.clipAction(clip);
                 action.play();
             }
     
+            //Set model position and scale
             gltf.scene.scale.set(...scale);
             gltf.scene.position.set(...position);
             scene.add(gltf.scene);
@@ -90,13 +96,14 @@ export class AnimatedModel{
     }
 
     setAnimation(animationIndex, loop = true) {
-        this.currentAnimation = animationIndex;
-        this.mixer.stopAllAction();
+        this.currentAnimation = animationIndex; // Set current animation index
+        this.mixer.stopAllAction(); // Stop all animations
         if (this.mixer && this.model) {
-
             if (this.animations && this.animations.length > animationIndex) {
+                // Play animation
                 const clip = this.animations[animationIndex];
                 const action = this.mixer.clipAction(clip);
+                //Set loop mode
                 if (loop) {
                     action.loop = THREE.LoopRepeat;
                 } else {
@@ -109,7 +116,7 @@ export class AnimatedModel{
 
     update(deltaTime) {
         if (this.mixer) {
-            this.mixer.update(deltaTime);
+            this.mixer.update(deltaTime); //Update mixer
         }
     }
 }

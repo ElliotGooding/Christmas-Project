@@ -7,7 +7,7 @@ export class Sound{
     constructor(soundPath){
         this.soundPath = soundPath;
         this.sound = null;
-        // this.playSound();
+        this.playSound();
     }
 
     playSound(){
@@ -26,7 +26,7 @@ export class Ambience {
         this.soundPaths = soundPaths;
         this.audioContext = new (window.AudioContext || window.webkitAudioContext)();
         this.currentSoundIndex = 0;
-        this.fadeDuration = 3; // Adjust as needed
+        this.fadeDuration = 3;
         this.gainNode = this.audioContext.createGain();
         this.gainNode.connect(this.audioContext.destination);
     }
@@ -51,20 +51,21 @@ export class Ambience {
             // Schedule the next sound in the path to play after the fade-in
             audioElement.addEventListener('ended', () => {
                 this.currentSoundIndex++;
+                this.currentSoundIndex %= this.soundPaths.length;
                 this.fadeIn();
             });
         }
     }
 
-    fadeOut() {
+    fadeOut(duration) {
         // Gradually decrease the gain for fade-out effect
         const currentTime = this.audioContext.currentTime;
         this.gainNode.gain.setValueAtTime(1, currentTime);
-        this.gainNode.gain.linearRampToValueAtTime(0, currentTime + this.fadeDuration);
+        this.gainNode.gain.linearRampToValueAtTime(0, currentTime + duration);
 
         // Stop playing the current sound after fade-out
         setTimeout(() => {
             this.gainNode.disconnect();
-        }, this.fadeDuration * 1000);
+        }, duration * 1000);
     }
 }

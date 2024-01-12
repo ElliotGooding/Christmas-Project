@@ -1,3 +1,5 @@
+//This file contains the data for hitboxes for buildings
+
 function getHitBoxData(){
     const row1 =[ 
         [ // Building 1

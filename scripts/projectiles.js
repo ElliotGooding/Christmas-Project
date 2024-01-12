@@ -17,6 +17,7 @@ export class Projectile{
 
         this.speed = 40;
         this.damage = damage
+        this.clock = new THREE.Clock();
 
         this.model = null;
         this.createProjectile();
@@ -31,9 +32,10 @@ export class Projectile{
     }
 
     move(){
-        this.position[0] += this.direction[0]*this.speed;
-        this.position[1] += this.direction[1]*this.speed;
-        this.position[2] += this.direction[2]*this.speed;
+        const dt = this.clock.getDelta()*142.857;
+        this.position[0] += this.direction[0]*this.speed*dt;
+        this.position[1] += this.direction[1]*this.speed*dt;
+        this.position[2] += this.direction[2]*this.speed*dt;
     }
 }
 

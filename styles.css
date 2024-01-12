@@ -76,8 +76,8 @@ body{
     font-size: 6vw;
     font-family: monospace;
     padding: 0.5vw;
-    border: 0.1vw solid #ffffff;
-    border-radius: 0.5vw;
+    border: 0.1vw solid #afafaf73;
+    border-radius: 0.3vw;
     background-color: transparent;
     opacity: 1;
     transition: opacity 0.1s
@@ -90,7 +90,7 @@ body{
     width: 100%;
     height: 100%;
     background: radial-gradient(at center, rgba(158, 112, 196, 0.9), rgb(135, 102, 255, 0.7));
-    border-radius: 0.5vw;
+    border-radius: 0.3vw;
     opacity: 0;
     transition: opacity 0.5s;
 }
@@ -117,7 +117,7 @@ body{
 
 .menu{
     display:none;
-    position: relative;
+    position: absolute;
     width: 100%;
     height: 100%;
 }
@@ -164,19 +164,31 @@ body{
 
 .menu-button{
     position:absolute;
-    display: grid;
-    grid-template-columns: 4vw auto;
-    justify-items: start; /* Add this line */
-    left:50%;
-    transform: translate(-50%, -50%);
     width: 30vw;
     height: 5.5vw;
-    color: #a1a1a1;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: #aaa;
+    border: 2px solid #aaa;
+    border-radius: 0.5vw;
+    background-color: transparent;
+    overflow: hidden;
+}
+
+.menu-button-content{
+    /* width: 100%;
+    height: 100%; */
+    position:absolute;
+    display: grid;
+    transform: translate(-50%, -50%);
+    left: 50%;
+    width: 100%;
+    height: 100%;
+    grid-template-columns: 4vw auto;
+    justify-items: start;
     font-size: 4vw;
     font-family: monospace;
     /* padding: 0.5vw; */
-    border: 1px solid #a1a1a1;
-    border-radius: 0.5vw;
     background-color: transparent;
     opacity: 1;
     transition: opacity 0.1s, colour 0.5s;
@@ -196,7 +208,7 @@ body{
 .menu-button-icon{
     padding-right: 1vw;
     padding-top: 0.7vw;
-    border-right: solid 1px;
+    border-right: solid 2px;
     border-color: inherit;
     height: 89%;
     width: 120%
@@ -204,6 +216,27 @@ body{
 
 .start-button{
     top: 20%;
+    /* z-index: 100; */
+}
+
+.start-button > .fill{
+    border-radius: 50%;
+	background-color: rgb(1, 108, 74);
+	position: absolute;
+	transform: scale(0);
+	z-index: -1;
+    transition: left 0.5s, top 0.5s, transform 0.5s;
+}
+
+.start-button > *{
+    z-index: 1;
+}
+
+.start-button > .fill.expand{
+    transform: scale(1);
+    /* left: 0 !important;
+    top: 0 !important; */
+    transition: transform 3s;
 }
 
 .settings-button{
@@ -212,6 +245,54 @@ body{
 
 .credits-button{
     top: 80%;
+}
+
+.settings{
+    position:absolute;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+}
+
+.settings-background{
+    --openTime: 1s;
+    opacity: 0;
+    position:absolute;
+    width:33%;
+    height:50%;
+    top:60%;
+    left:50%;
+    transform: translate(-50%, -50%);
+    border: 0.1vw solid #ffffff;
+    border-radius: 0.5vw;
+    background: radial-gradient(at center, rgba(186, 102, 255, 0.9), rgb(135, 102, 255, 0.7));
+    transition: width var(--openTime), height var(--openTime), top var(--openTime), left var(--openTime), transform var(--openTime), border var(--openTime);
+}
+
+.settings-content{
+    position:absolute;
+    width:40%;
+    height:80%;
+    top:55%;
+    left:50%;
+    transform: translate(-50%, -50%);
+    opacity: 0;
+    visibility: hidden;
+}
+
+.settings-background.active{
+    width:40%;
+    height:80%;
+    top:55%;
+    left:50%;
+    transform: translate(-50%, -50%);
+    visibility: visible;
+    opacity: 1;
+}
+
+.settings-content.active{
+    visibility: visible;
+    opacity: 1;
 }
 
 .menu.deactive{
@@ -290,17 +371,28 @@ body{
     text-decoration: underline;
 }
 
-.game-container{
+@property --fadeDist {
+  syntax: '<percentage>';
+  inherits: false;
+  initial-value: 20%;
+}
+
+@property --midColour {
+  syntax: '<color>';
+  inherits: false;
+  initial-value: rgba(0, 0, 0, 0);
+}
+
+.game-container {
     width: 100%;
     height: 100%;
     position:relative;
-    --red-alpha: 0.2;
-    --fadeDist: 10%;
 }
 
-.game-container::before {
-    content: '';
-    position: fixed;
+.damage-overlay{
+    position:absolute;
+    width: 100%;
+    height: 100%;
     top: 0;
     left: 0;
     right: 0;
@@ -309,26 +401,34 @@ body{
         linear-gradient(
             to right,
             rgba(255, 0, 0, var(--red-alpha)) 5%,
-            transparent 10%,
-            transparent 90%,
+            var(--midColour) var(--fadeDist),
+            var(--midColour) calc(100% - var(--fadeDist)),
             rgba(255, 0, 0, var(--red-alpha)) 95% 
         ),
         linear-gradient(
             to bottom,
             rgba(255, 0, 0, var(--red-alpha)) 5%,
-            transparent 10%,
-            transparent 90%,
+            var(--midColour) var(--fadeDist),
+            var(--midColour) calc(100% - var(--fadeDist)),
             rgba(255, 0, 0, var(--red-alpha)) 95% 
         );
 
     opacity: 0;
     pointer-events: none;
     z-index: 999;
-    transition: opacity 0.5s, --red-alpha 0.1s;
+    transition: opacity 0.5s, --red-alpha 0.1s, --fadeDist 1s, --midColour 1s;
 }
 
-.damage-effect::before{
+.damage-effect{
     opacity: 1;
+}
+
+.dead-effect{
+    opacity: 1;
+    --fadeDist: 50%;
+    --midColour: rgba(255,0,0,0.2);
+    --red-alpha: 0.7;
+    transition: opacity 0.5s, --red-alpha 1s, --fadeDist 1s, --midColour 1s;
 }
 
 .game-container canvas{
@@ -344,12 +444,19 @@ body{
     visibility: hidden;
 }
 
+.canvas-overlay{
+    visibility: hidden;
+    opacity: 0;
+    transition: opacity 2s linear 2s;
+}
+
 .crosshair{
     position:absolute;
     top:50%;
     left:50%;
     width: 20px;
     height: 20px;
+    transform: translate(-50%, -50%);
     z-index: 100;
 }
 
@@ -404,6 +511,38 @@ body{
     padding: 0.5vw;
 }
 
+.game-over-content{
+    opacity: 0;
+    z-index: 1000;
+}
+
+.game-over-content.active{
+    opacity: 1;
+    transition: opacity 1s;
+}
+
+.game-over{
+    position:absolute;
+    top:50%;
+    left:50%;
+    transform: translate(-50%, -50%);
+    color: #ffffff;
+    font-size: 5vw;
+    padding: 0.5vw;
+    z-index: 1000;
+}
+
+.kills{
+    position:absolute;
+    top:60%;
+    left:50%;
+    color: #ffffff;
+    font-size: 2vw;
+    padding: 0.5vw;
+    z-index: 1000;
+    transform: translate(-50%, -50%);
+}
+
 .point{
     position:absolute;
     top:4%;
@@ -425,3 +564,4 @@ body{
     font-family: monospace;
     padding: 0.5vw;
 }
+

@@ -4,14 +4,12 @@ import { World } from './world.js';
 
 export class MissionScreen{
     constructor(){
-        $('.continue-button').click(this.loadGame);
+        $('.continue-button').one('click', this.loadGame); //Initialise continue button
     }
 
+    //Load game
     loadGame(){
         const cam = new Camera();
         const world = new World(cam);
-        $('#mainGameCanvas').css('display', 'block');
-        $('#mainGameCanvas').css('visibility', 'visible');
-        $('.continue-button').css('display', 'none');
     }
 }
